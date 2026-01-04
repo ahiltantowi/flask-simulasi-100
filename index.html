@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RNG Industrial Pro | Audit System Bab 10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .mono {
+        font-family: "Space Mono", monospace;
+      }
+
+      /* Industrial Design System */
+      .grid-bg {
+        background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+        background-size: 30px 30px;
+      }
+      .section-tag {
+        border-left: 12px solid #1e40af;
+        padding-left: 1.5rem;
+      }
+      .solid-border {
+        border: 4px solid #0f172a;
+      }
+
+      .btn-master {
+        background: #0f172a;
+        color: white;
+        padding: 1.25rem 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        border-radius: 0px;
+        box-shadow: 8px 8px 0px #1e40af;
+        transition: all 0.1s active;
+      }
+      .btn-master:active {
+        transform: translate(4px, 4px);
+        box-shadow: 2px 2px 0px #1e40af;
+      }
+
+      .output-card {
+        background: white;
+        border: 2px solid #0f172a;
+        padding: 1rem;
+        box-shadow: 4px 4px 0px #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .raw-data-box {
+        background: #0f172a;
+        color: #4ade80;
+        padding: 1.5rem;
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        border: 2px solid #1e40af;
+      }
+
+      /* Status Styling */
+      .status-lulus {
+        color: #15803d;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-style: italic;
+      }
+      .status-gagal {
+        color: #dc2626;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body class="grid-bg">
+    <nav
+      class="sticky top-0 z-50 bg-[#0f172a] text-white border-b-8 border-blue-700 px-8 py-5"
+    >
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <i class="fas fa-microchip text-blue-500 text-3xl animate-pulse"></i>
+          <span class="text-2xl font-black tracking-tighter uppercase italic"
+            >Standard-RNG <span class="text-blue-500">PRO</span></span
+          >
+        </div>
+        <div
+          class="hidden md:flex gap-10 font-black text-xs tracking-widest uppercase"
+        >
+          <a href="#tujuan" class="hover:text-blue-400"
+            ><i class="fas fa-file-invoice mr-1"></i> Dokumentasi</a
+          >
+          <a href="#demo" class="hover:text-blue-400"
+            ><i class="fas fa-bolt mr-1"></i> Simulator</a
+          >
+          <a href="#developer" class="hover:text-blue-400"
+            ><i class="fas fa-hard-hat mr-1"></i> Engineer</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <section class="bg-white border-b-4 border-slate-900 py-24 px-8">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <span
+            class="bg-blue-100 text-blue-800 px-3 py-1 text-xs font-black uppercase tracking-widest mb-6 inline-block"
+            >Sistem Audit Validasi Bab 10</span
+          >
+          <h1
+            class="text-7xl font-black leading-none mb-8 uppercase tracking-tighter text-slate-900"
+          >
+            Engine Pengujian <br /><span
+              class="text-blue-700 underline decoration-8 underline-offset-8"
+              >Data Acak</span
+            >
+          </h1>
+          <p
+            class="text-xl text-slate-600 font-bold mb-10 border-l-8 border-slate-200 pl-8 leading-relaxed"
+          >
+            Evaluasi deterministik Linear Congruential Generator untuk menjamin
+            integritas simulasi sistem melalui uji Uniformitas, Independensi,
+            dan Autokorelasi.
+          </p>
+          <a href="#demo" class="btn-master inline-flex items-center gap-3">
+            <i class="fas fa-terminal"></i> Inisialisasi Audit
+          </a>
+        </div>
+        <div
+          class="bg-[#0f172a] text-white p-10 solid-border shadow-[15px_15px_0px_#cbd5e1]"
+        >
+          <h4
+            class="font-black mb-6 text-blue-400 flex items-center gap-3 uppercase tracking-widest"
+          >
+            <i class="fas fa-microchip"></i> LCG Configuration Card
+          </h4>
+          <div class="space-y-4 mono text-sm">
+            <div class="flex justify-between border-b border-white/10 pb-2">
+              <span>Modulus (m)</span>
+              <span class="text-blue-300">2,147,483,648</span>
+            </div>
+            <div class="flex justify-between border-b border-white/10 pb-2">
+              <span>Multiplier (a)</span>
+              <span class="text-blue-300">1,103,515,245</span>
+            </div>
+            <div class="flex justify-between border-b border-white/10 pb-2">
+              <span>Increment (c)</span>
+              <span class="text-blue-300">12,345</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Default Seed</span> <span class="text-blue-300">7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="tujuan"
+      class="py-24 px-8 bg-slate-50 border-b-4 border-slate-900"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="section-tag mb-16">
+          <h2 class="text-5xl font-black uppercase tracking-tighter">
+            Protokol Verifikasi
+          </h2>
+          <p class="text-slate-500 font-bold mt-2">
+            PARAMETER KELAYAKAN DATA STOKASTIK
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-white border-4 border-slate-900 p-10 hover:shadow-[10px_10px_0px_#1e40af] transition-all"
+          >
+            <i class="fas fa-chart-pie text-4xl text-blue-700 mb-6"></i>
+            <h3 class="text-2xl font-black mb-4 uppercase">1. Uniformitas</h3>
+            <p class="text-slate-600 font-bold leading-relaxed text-sm">
+              Membuktikan bahwa distribusi angka tersebar merata di rentang
+              [0,1] tanpa adanya penumpukan frekuensi.
+            </p>
+          </div>
+          <div
+            class="bg-white border-4 border-slate-900 p-10 hover:shadow-[10px_10px_0px_#1e40af] transition-all"
+          >
+            <i class="fas fa-random text-4xl text-blue-700 mb-6"></i>
+            <h3 class="text-2xl font-black mb-4 uppercase">2. Independensi</h3>
+            <p class="text-slate-600 font-bold leading-relaxed text-sm">
+              Memastikan setiap angka yang muncul tidak dipengaruhi oleh angka
+              sebelumnya melalui uji arah runs (Up/Down).
+            </p>
+          </div>
+          <div
+            class="bg-white border-4 border-slate-900 p-10 hover:shadow-[10px_10px_0px_#1e40af] transition-all"
+          >
+            <i class="fas fa-link text-4xl text-blue-700 mb-6"></i>
+            <h3 class="text-2xl font-black mb-4 uppercase">3. Autokorelasi</h3>
+            <p class="text-slate-600 font-bold leading-relaxed text-sm">
+              Mengukur kekuatan hubungan linier antar elemen dalam urutan untuk
+              mendeteksi siklus tersembunyi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="py-24 px-8 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end mb-16 gap-10"
+        >
+          <div class="section-tag">
+            <h2 class="text-5xl font-black uppercase tracking-tighter">
+              Dashboard Auditor
+            </h2>
+            <p
+              class="text-slate-400 font-bold mt-2 uppercase flex items-center gap-2"
+            >
+              <i class="fas fa-database"></i> Live Analytics Buffer: 1000
+              Samples
+            </p>
+          </div>
+          <button
+            onclick="runMasterAudit()"
+            id="auditBtn"
+            class="btn-master text-xl"
+          >
+            <i class="fas fa-bolt-lightning mr-2"></i> Jalankan Audit Data
+          </button>
+        </div>
+
+        <div
+          id="auditGrid"
+          class="hidden grid md:grid-cols-2 gap-12 animate__animated animate__fadeIn"
+        >
+          <div class="solid-border p-10 bg-slate-50 relative overflow-hidden">
+            <div class="flex justify-between items-center mb-8">
+              <span
+                class="font-black text-xs uppercase tracking-[0.2em] flex items-center gap-2"
+                ><i class="fas fa-microchip text-blue-600"></i> LCG Engine
+                Output</span
+              >
+              <div class="flex items-center gap-2">
+                <span
+                  class="w-2 h-2 bg-red-600 rounded-full animate-pulse"
+                ></span>
+                <span class="text-[10px] font-black">SCANNING</span>
+              </div>
+            </div>
+            <div
+              id="l-roll"
+              class="text-8xl font-black mb-10 mono tracking-tighter"
+            >
+              0.0000
+            </div>
+
+            <div
+              id="l-results"
+              class="hidden space-y-4 border-t-4 border-slate-900 pt-8"
+            >
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >1. Uji Uniformitas</span
+                >
+                <span id="l-unif" class="mono text-xs font-bold"></span>
+              </div>
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >2. Uji Runs (Pola)</span
+                >
+                <span id="l-runs" class="mono text-xs font-bold"></span>
+              </div>
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >3. Autokorelasi (r)</span
+                >
+                <span id="l-auto" class="mono text-xs font-bold"></span>
+              </div>
+              <div
+                class="raw-data-box mt-6 h-40 overflow-y-auto"
+                id="l-raw"
+              ></div>
+            </div>
+          </div>
+
+          <div class="solid-border p-10 bg-slate-50 relative overflow-hidden">
+            <div class="flex justify-between items-center mb-8">
+              <span
+                class="font-black text-xs uppercase tracking-[0.2em] flex items-center gap-2"
+                ><i class="fas fa-robot text-blue-600"></i> System RNG
+                (Python)</span
+              >
+              <span
+                class="bg-blue-600 text-white px-2 py-1 text-[10px] font-black italic"
+                >STANDARD_LIBRARY</span
+              >
+            </div>
+            <div
+              id="s-roll"
+              class="text-8xl font-black mb-10 mono tracking-tighter"
+            >
+              0.0000
+            </div>
+
+            <div
+              id="s-results"
+              class="hidden space-y-4 border-t-4 border-slate-900 pt-8"
+            >
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >1. Uji Uniformitas</span
+                >
+                <span id="s-unif" class="mono text-xs font-bold"></span>
+              </div>
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >2. Uji Runs (Pola)</span
+                >
+                <span id="s-runs" class="mono text-xs font-bold"></span>
+              </div>
+              <div class="output-card">
+                <span class="font-black text-[10px] uppercase italic"
+                  >3. Autokorelasi (r)</span
+                >
+                <span id="s-auto" class="mono text-xs font-bold"></span>
+              </div>
+              <div
+                class="raw-data-box mt-6 h-40 overflow-y-auto"
+                id="s-raw"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="developer"
+      class="py-32 px-8 bg-[#0f172a] text-white overflow-hidden relative"
+    >
+      <div
+        class="absolute top-0 right-0 opacity-5 text-[20rem] font-black -mr-20 -mt-20 select-none"
+      >
+        DEV
+      </div>
+
+      <div
+        class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-20 relative z-10"
+      >
+        <div class="relative flex-shrink-0 animate__animated animate__fadeIn">
+          <div
+            class="w-72 h-72 border-[12px] border-blue-700 relative shadow-[20px_20px_0px_#1e40af] bg-[#0f172a] overflow-hidden"
+          >
+            <img
+              src="{{url_for('static', filename='cimen.JPG')}}"
+              alt="Cimen"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div
+            class="absolute -bottom-6 -left-6 bg-blue-700 text-white px-6 py-3 font-black text-xs uppercase tracking-[0.2em] shadow-2xl border-2 border-white/10"
+          >
+            Lead Architect
+          </div>
+        </div>
+
+        <div class="animate__animated animate__fadeInRight">
+          <h2
+            class="text-6xl font-black uppercase tracking-tighter mb-4 leading-none"
+          >
+            Systems
+            <span
+              class="text-blue-500 underline decoration-4 underline-offset-8"
+              >Engineer</span
+            >
+          </h2>
+          <p
+            class="text-slate-400 text-xl font-bold italic mb-10 leading-relaxed max-w-2xl"
+          >
+            Spesialis pemodelan stokastik dan komputasi numerik. Mengembangkan
+            solusi audit RNG untuk standar kurikulum teknik dengan efisiensi
+            algoritma tingkat tinggi.
+          </p>
+
+          <div class="mb-12">
+            <p
+              class="text-[10px] font-black uppercase tracking-[0.4em] text-blue-500 mb-8 flex items-center gap-2"
+            >
+              <span class="w-8 h-[2px] bg-blue-500"></span> Integrated
+              Development Stack
+            </p>
+            <div class="flex flex-wrap gap-10 text-4xl text-slate-300">
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fab fa-python group-hover:text-[#3776ab] animate-bounce"
+                  style="animation-duration: 3s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-[#3776ab]"
+                  >Python</span
+                >
+              </div>
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fas fa-flask group-hover:text-white animate-bounce"
+                  style="animation-duration: 2.5s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-white"
+                  >Flask</span
+                >
+              </div>
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fab fa-css3-alt group-hover:text-[#38bdf8] animate-bounce"
+                  style="animation-duration: 3.2s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-[#38bdf8]"
+                  >Tailwind</span
+                >
+              </div>
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fab fa-html5 group-hover:text-[#e34f26] animate-bounce"
+                  style="animation-duration: 2.7s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-[#e34f26]"
+                  >HTML5</span
+                >
+              </div>
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fab fa-js group-hover:text-[#f7df1e] animate-bounce"
+                  style="animation-duration: 3.5s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-[#f7df1e]"
+                  >JS_Core</span
+                >
+              </div>
+              <div
+                class="group flex flex-col items-center gap-2 transition-all cursor-pointer"
+              >
+                <i
+                  class="fas fa-square-root-variable group-hover:text-[#4479a1] animate-bounce"
+                  style="animation-duration: 2.9s"
+                ></i>
+                <span
+                  class="text-[8px] font-black opacity-0 group-hover:opacity-100 tracking-widest transition-opacity uppercase text-[#4479a1]"
+                  >Math</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex gap-10 font-black uppercase tracking-[0.3em] text-xs pt-4"
+          >
+            <a
+              href="#"
+              class="group text-blue-500 flex items-center gap-3 border-b-2 border-transparent hover:border-blue-500 pb-1 transition-all"
+            >
+              <i class="fab fa-github text-xl"></i> View_Repository
+            </a>
+            <a
+              href="#"
+              class="group text-blue-500 flex items-center gap-3 border-b-2 border-transparent hover:border-blue-500 pb-1 transition-all"
+            >
+              <i class="fas fa-file-signature text-xl"></i> System_Log
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="kontak"
+      class="py-24 px-8 bg-white border-t-8 border-slate-900 grid-pattern"
+    >
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
+        <div class="animate__animated animate__fadeInLeft">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="h-12 w-2 bg-blue-700"></div>
+            <h2 class="text-5xl font-black uppercase tracking-tighter italic">
+              Hubungi <br />
+              <span class="text-blue-700">Lab Engineer</span>
+            </h2>
+          </div>
+
+          <form class="space-y-4">
+            <div class="relative">
+              <i
+                class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
+              ></i>
+              <input
+                type="text"
+                placeholder="NAMA LENGKAP"
+                class="w-full p-5 pl-14 border-4 border-slate-900 font-black focus:bg-slate-50 focus:border-blue-700 outline-none transition-all"
+              />
+            </div>
+
+            <div class="relative">
+              <i
+                class="fas fa-envelope-open-text absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
+              ></i>
+              <input
+                type="email"
+                placeholder="ALAMAT EMAIL RESMI"
+                class="w-full p-5 pl-14 border-4 border-slate-900 font-black focus:bg-slate-50 focus:border-blue-700 outline-none transition-all"
+              />
+            </div>
+
+            <div class="relative">
+              <i
+                class="fas fa-comment-dots absolute left-5 top-6 text-slate-400"
+              ></i>
+              <textarea
+                rows="4"
+                placeholder="DETAIL PESAN TEKNIS"
+                class="w-full p-5 pl-14 border-4 border-slate-900 font-black focus:bg-slate-50 focus:border-blue-700 outline-none transition-all"
+              ></textarea>
+            </div>
+
+            <button
+              class="btn-master w-full flex justify-center items-center gap-4 py-6 group"
+            >
+              <i
+                class="fas fa-paper-plane group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform"
+              ></i>
+              KIRIM TRANSMISI DATA
+            </button>
+          </form>
+        </div>
+
+        <div class="space-y-8 animate__animated animate__fadeInRight">
+          <div
+            class="bg-slate-900 text-white p-10 border-l-[12px] border-blue-700 shadow-[15px_15px_0px_#cbd5e1]"
+          >
+            <h3
+              class="text-2xl font-black mb-8 uppercase flex items-center gap-4"
+            >
+              <i class="fas fa-satellite-dish text-blue-500"></i> Central Hub
+              Info
+            </h3>
+
+            <div
+              class="grid grid-cols-1 gap-6 font-bold uppercase tracking-widest text-[11px]"
+            >
+              <div
+                class="flex items-start gap-4 p-4 bg-white/5 border border-white/10 hover:border-blue-500 transition-colors"
+              >
+                <i class="fas fa-map-location-dot text-blue-500 text-2xl"></i>
+                <span
+                  >Home and Office<br />Tantowi's industial and inovation
+                </span>
+              </div>
+
+              <div
+                class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 hover:border-blue-500 transition-colors"
+              >
+                <i class="fas fa-at text-blue-500 text-2xl"></i>
+                <span>hilmantantowi09@gmail</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="border-4 border-slate-900 p-2 bg-white shadow-[15px_15px_0px_#1e40af]"
+          >
+            <div
+              class="bg-slate-200 h-64 w-full relative overflow-hidden group"
+            >
+              <iframe
+                class="grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                src="https://maps.google.com/maps?q=Universitas%20Indonesia%20Fakultas%20Teknik&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              >
+              </iframe>
+              <div
+                class="absolute top-4 right-4 bg-slate-900 text-white px-3 py-1 text-[10px] font-black uppercase tracking-tighter"
+              >
+                Live Satellite Feed
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer
+      class="bg-[#0f172a] border-t-8 border-blue-700 pt-16 pb-8 text-white"
+    >
+      <div class="max-w-7xl mx-auto px-8">
+        <div class="grid md:grid-cols-3 gap-12 mb-12 items-start">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-shield-halved text-blue-500 text-2xl"></i>
+              <span class="text-xl font-black tracking-tighter uppercase italic"
+                >RNG-INDUSTRIAL</span
+              >
+            </div>
+            <p
+              class="text-slate-400 text-xs font-bold leading-relaxed tracking-wide"
+            >
+              Sistem validasi stokastik tingkat lanjut untuk memastikan
+              integritas data simulasi sesuai standar industri global.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <span
+              class="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-6 block"
+              >Powered By</span
+            >
+            <div class="flex justify-center gap-8 text-3xl text-slate-500">
+              <i
+                class="fab fa-python hover:text-blue-400 transition-colors cursor-help"
+                title="Python 3.10"
+              ></i>
+              <i
+                class="fas fa-flask hover:text-white transition-colors cursor-help"
+                title="Flask Framework"
+              ></i>
+              <i
+                class="fas fa-microchip hover:text-green-500 transition-colors cursor-help"
+                title="LCG Algorithm"
+              ></i>
+              <i
+                class="fas fa-chart-line hover:text-yellow-400 transition-colors cursor-help"
+                title="Statistical Analysis"
+              ></i>
+            </div>
+          </div>
+
+          <div class="flex flex-col md:items-end gap-2">
+            <div
+              class="inline-flex items-center gap-2 bg-blue-700/20 border border-blue-700 px-4 py-2"
+            >
+              <i class="fas fa-check-double text-blue-500 text-xs"></i>
+              <span class="text-[10px] font-black uppercase tracking-widest"
+                >ISO-9001 COMPLIANT</span
+              >
+            </div>
+            <div
+              class="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 px-4 py-2"
+            >
+              <i class="fas fa-lock text-slate-400 text-xs"></i>
+              <span
+                class="text-[10px] font-black uppercase tracking-widest text-slate-400"
+                >SECURE PROTOCOL</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <span
+            class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500 text-center md:text-left"
+          >
+            &copy; 2025 RNG-INDUSTRIAL-SECURE // SYSTEMATIC SIMULATION v1.0
+          </span>
+          <div class="flex gap-6 text-slate-500 text-xs font-black italic">
+            <span class="hover:text-blue-500 cursor-pointer"
+              >PRIVACY_POLICY</span
+            >
+            <span class="hover:text-blue-500 cursor-pointer">TERM_OF_DATA</span>
+            <span class="hover:text-blue-500 cursor-pointer">LAB_ACCESS</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      function runMasterAudit() {
+        const btn = document.getElementById("auditBtn");
+        const grid = document.getElementById("auditGrid");
+        const lRoll = document.getElementById("l-roll");
+        const sRoll = document.getElementById("s-roll");
+
+        grid.classList.remove("hidden");
+        btn.disabled = true;
+        btn.innerHTML =
+          "<i class='fas fa-sync fa-spin mr-2'></i> ANALYZING STREAM...";
+
+        // Animasi acak awal (Loading effect)
+        let loadingRoll = setInterval(() => {
+          lRoll.innerText = Math.random().toFixed(4);
+          sRoll.innerText = Math.random().toFixed(4);
+        }, 50);
+
+        fetch("/run-simulation")
+          .then((r) => r.json())
+          .then((data) => {
+            clearInterval(loadingRoll); // Hentikan loading acak
+
+            // Memulai sekuens angka dari data asli (Fast Sequence Effect)
+            let i = 0;
+            const streamData = data.lcg.full_data;
+            const sysData = data.sys.full_data;
+
+            let finalRoll = setInterval(() => {
+              if (i < 20) {
+                // Kita putar 20 angka pertama dengan cepat
+                lRoll.innerText = streamData[i];
+                sRoll.innerText = sysData[i];
+                i++;
+              } else {
+                clearInterval(finalRoll);
+
+                // Set ke angka terakhir agar mantap
+                lRoll.innerText = streamData[0];
+                sRoll.innerText = sysData[0];
+
+                // Tampilkan sisa dashboard
+                document.getElementById("l-results").classList.remove("hidden");
+                document.getElementById("s-results").classList.remove("hidden");
+
+                renderStats("l", data.lcg);
+                renderStats("s", data.sys);
+
+                btn.disabled = false;
+                btn.innerHTML =
+                  "<i class='fas fa-check-double mr-2'></i> AUDIT COMPLETE";
+                btn.style.backgroundColor = "#15803d";
+              }
+            }, 40); // Kecepatan pergantian angka (40ms)
+          });
+      }
+
+      function renderStats(prefix, stats) {
+        const u = document.getElementById(`${prefix}-unif`);
+        const r = document.getElementById(`${prefix}-runs`);
+        const a = document.getElementById(`${prefix}-auto`);
+        const raw = document.getElementById(`${prefix}-raw`);
+
+        // Update Teks dengan padding agar sejajar seperti Terminal
+        u.innerText = `${stats.status_unif.padEnd(
+          7
+        )} | P-VALUE: ${stats.p_unif.toFixed(4)}`;
+        u.className = `mono text-xs font-bold ${
+          stats.status_unif === "LULUS" ? "status-lulus" : "status-gagal"
+        }`;
+
+        r.innerText = `${stats.status_runs.padEnd(
+          7
+        )} | P-VALUE: ${stats.p_runs.toFixed(4)}`;
+        r.className = `mono text-xs font-bold ${
+          stats.status_runs === "LULUS" ? "status-lulus" : "status-gagal"
+        }`;
+
+        a.innerText = `${stats.status_auto.padEnd(
+          7
+        )} | NILAI R: ${stats.r_val.toFixed(4)}`;
+        a.className = `mono text-xs font-bold ${
+          stats.status_auto === "LULUS" ? "status-lulus" : "status-gagal"
+        }`;
+
+        raw.innerText =
+          ">> BUFFER_RAW_DATA_STREAM: \n\n" + stats.full_data.join(" | ");
+      }
+    </script>
+  </body>
+</html>

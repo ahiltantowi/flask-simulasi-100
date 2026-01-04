@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RNG Industrial Pro | Audit System Bab 10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='styles.css')}}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body class="grid-bg">
+    {% include 'nav.html'%} {% include 'home.html'%} {% include 'tujuan.html'%}
+    {% include 'simulasi.html'%} {% include 'depelover.html'%} {% include
+    'kontak.html'%} {% include 'footer.html'%}
+
+    <script src="{{url_for('static', filename='scripts.js')}}"></script>
+  </body>
+</html>

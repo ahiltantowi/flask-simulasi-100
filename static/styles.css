@@ -1,0 +1,72 @@
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .mono {
+        font-family: "Space Mono", monospace;
+      }
+
+      /* Industrial Design System */
+      .grid-bg {
+        background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+        background-size: 30px 30px;
+      }
+      .section-tag {
+        border-left: 12px solid #1e40af;
+        padding-left: 1.5rem;
+      }
+      .solid-border {
+        border: 4px solid #0f172a;
+      }
+
+      .btn-master {
+        background: #0f172a;
+        color: white;
+        padding: 1.25rem 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        border-radius: 0px;
+        box-shadow: 8px 8px 0px #1e40af;
+        transition: all 0.1s active;
+      }
+      .btn-master:active {
+        transform: translate(4px, 4px);
+        box-shadow: 2px 2px 0px #1e40af;
+      }
+
+      .output-card {
+        background: white;
+        border: 2px solid #0f172a;
+        padding: 1rem;
+        box-shadow: 4px 4px 0px #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .raw-data-box {
+        background: #0f172a;
+        color: #4ade80;
+        padding: 1.5rem;
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        border: 2px solid #1e40af;
+      }
+
+      /* Status Styling */
+      .status-lulus {
+        color: #15803d;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-style: italic;
+      }
+      .status-gagal {
+        color: #dc2626;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-style: italic;
+      }

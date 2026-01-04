@@ -1,0 +1,120 @@
+<section id="demo" class="py-24 px-8 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div
+      class="flex flex-col md:flex-row justify-between items-end mb-16 gap-10"
+    >
+      <div class="section-tag">
+        <h2 class="text-5xl font-black uppercase tracking-tighter">
+          Dashboard Auditor
+        </h2>
+        <p
+          class="text-slate-400 font-bold mt-2 uppercase flex items-center gap-2"
+        >
+          <i class="fas fa-database"></i> Live Analytics Buffer: 1000 Samples
+        </p>
+      </div>
+      <button
+        onclick="runMasterAudit()"
+        id="auditBtn"
+        class="btn-master text-xl"
+      >
+        <i class="fas fa-bolt-lightning mr-2"></i> Jalankan Audit Data
+      </button>
+    </div>
+
+    <div
+      id="auditGrid"
+      class="hidden grid md:grid-cols-2 gap-12 animate__animated animate__fadeIn"
+    >
+      <div class="solid-border p-10 bg-slate-50 relative overflow-hidden">
+        <div class="flex justify-between items-center mb-8">
+          <span
+            class="font-black text-xs uppercase tracking-[0.2em] flex items-center gap-2"
+            ><i class="fas fa-microchip text-blue-600"></i> LCG Engine
+            Output</span
+          >
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-black">SCANNING</span>
+          </div>
+        </div>
+        <div
+          id="l-roll"
+          class="text-8xl font-black mb-10 mono tracking-tighter"
+        >
+          0.0000
+        </div>
+
+        <div
+          id="l-results"
+          class="hidden space-y-4 border-t-4 border-slate-900 pt-8"
+        >
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >1. Uji Uniformitas</span
+            >
+            <span id="l-unif" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >2. Uji Runs (Pola)</span
+            >
+            <span id="l-runs" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >3. Autokorelasi (r)</span
+            >
+            <span id="l-auto" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="raw-data-box mt-6 h-40 overflow-y-auto" id="l-raw"></div>
+        </div>
+      </div>
+
+      <div class="solid-border p-10 bg-slate-50 relative overflow-hidden">
+        <div class="flex justify-between items-center mb-8">
+          <span
+            class="font-black text-xs uppercase tracking-[0.2em] flex items-center gap-2"
+            ><i class="fas fa-robot text-blue-600"></i> System RNG
+            (Python)</span
+          >
+          <span
+            class="bg-blue-600 text-white px-2 py-1 text-[10px] font-black italic"
+            >STANDARD_LIBRARY</span
+          >
+        </div>
+        <div
+          id="s-roll"
+          class="text-8xl font-black mb-10 mono tracking-tighter"
+        >
+          0.0000
+        </div>
+
+        <div
+          id="s-results"
+          class="hidden space-y-4 border-t-4 border-slate-900 pt-8"
+        >
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >1. Uji Uniformitas</span
+            >
+            <span id="s-unif" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >2. Uji Runs (Pola)</span
+            >
+            <span id="s-runs" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="output-card">
+            <span class="font-black text-[10px] uppercase italic"
+              >3. Autokorelasi (r)</span
+            >
+            <span id="s-auto" class="mono text-xs font-bold"></span>
+          </div>
+          <div class="raw-data-box mt-6 h-40 overflow-y-auto" id="s-raw"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
